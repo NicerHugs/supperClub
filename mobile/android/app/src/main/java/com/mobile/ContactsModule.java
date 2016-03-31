@@ -57,6 +57,6 @@ public class ContactsModule extends ReactContextBaseJavaModule {
        	  cursor.moveToNext();
         }
         cursor.close();
-      success.invoke(null, contacts);
+      cb.invoke(null, contacts);
     }
 }

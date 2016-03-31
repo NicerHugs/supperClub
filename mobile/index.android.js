@@ -10,7 +10,9 @@ import React, {
   TextInput,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar,
+  ToolbarAndroid
 } from 'react-native';
 import SelectContacts from './components/selectContacts';
 
@@ -33,14 +35,21 @@ class mobile extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+          backgroundColor={'pink'}
+          barStyle="light-content" />
+        <ToolbarAndroid
+          style={styles.toolbar}
+          title="Supper Club"
+          titleColor={'black'} />
         <SelectContacts />
         <TextInput
           keyboardType='numeric'
           style={styles.msgInput}
           onChangeText={(number) => this.setState({number})}
           value={this.state.number} />
-        <TouchableOpacity style={styles.btn} onPress={() => this.send(this.state.number)}>
-          <Text style={styles.btn_txt}>Send sms</Text>
+        <TouchableOpacity style={styles.sendBtn} onPress={() => this.send(this.state.number)}>
+          <Text style={styles.btn_txt}>Send Invites</Text>
         </TouchableOpacity>
       </View>
     );
@@ -50,19 +59,27 @@ class mobile extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column'
+  },
+  toolbar: {
+    height: 56,
+    backgroundColor: 'pink'
   },
   msgInput: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1
   },
-  btn: {
+  sendBtn: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    height: 50,
+    backgroundColor: 'turquoise',
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   btn_txt: {
-    color: 'pink'
+    color: 'white'
   }
 });
 
