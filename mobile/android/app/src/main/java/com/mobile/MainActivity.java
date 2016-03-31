@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.nicerhugs.smsAndroid.SmsPackage;
+import com.nicerhugs.contactsAndroid.ContactsPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -37,7 +38,8 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new SmsPackage()
+            new SmsPackage(),
+            new ContactsPackage()
         );
     }
 }

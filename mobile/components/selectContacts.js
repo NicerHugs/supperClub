@@ -8,31 +8,17 @@ import React, {
   TouchableOpacity
 } from 'react-native';
 
-const contacts = [
-  {name: 'jess scheuring'},
-  {name: 'nicer hugs'},
-  {name: 'bill murray'}
-]
+var contacts = React.NativeModules.ContactsModule;
 
 class selectContacts extends Component {
   constructor() {
     super();
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.updateSearch = this.updateSearch.bind(this);
+    this.handleContacts = this.handleContacts.bind(this);
     this.state = {
       dataSource: ds.cloneWithRows([]),
     };
-  }
-  updateSearch(text) {
-    // request contacts here
-    // when they return, update state to reflect selected ones
-    var filteredContacts = [];
-    if (text.trim()) {
-      filteredContacts = contacts.filter(contact => {
-        return contact.name.toLowerCase().indexOf(text.toLowerCase()) >= 0;
-      })
-    }
-    this.setState({dataSource: this.state.dataSource.cloneWithRows(filteredContacts)});
   }
   render() {
     return (
@@ -46,11 +32,28 @@ class selectContacts extends Component {
       </View>
     )
   }
+  handleContacts(err, contacts) {
+    if (err) {return err;}
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(contacts.filter(contact => {
+        return contact.hasPhoneNumber;
+      }))
+    });
+  }
+  updateSearch(text) {
+    if (text.trim()) {
+      contacts.search(text, this.handleContacts)
+    } else {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows([])
+      });
+    }
+  }
 }
 
 function renderContact(rowData) {
   return (
-    <Text>{rowData.name}</Text>
+    <Text>{rowData.displayName}</Text>
   )
 }
 
