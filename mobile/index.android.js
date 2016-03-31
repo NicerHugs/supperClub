@@ -26,7 +26,8 @@ class mobile extends Component {
     }
   }
   send(num) {
-    sms.send(num, 'hi from supper club', function(s) {
+    var textBody = 'hi from supper club';
+    sms.send(num, textBody, function(s) {
       console.log('success', s)
     }, function(e) {
       console.log('error', e)
@@ -43,11 +44,6 @@ class mobile extends Component {
           title="Supper Club"
           titleColor={'black'} />
         <SelectContacts />
-        <TextInput
-          keyboardType='numeric'
-          style={styles.msgInput}
-          onChangeText={(number) => this.setState({number})}
-          value={this.state.number} />
         <TouchableOpacity style={styles.sendBtn} onPress={() => this.send(this.state.number)}>
           <Text style={styles.btn_txt}>Send Invites</Text>
         </TouchableOpacity>

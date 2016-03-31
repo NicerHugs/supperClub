@@ -7,6 +7,7 @@ import React, {
   ListView,
   TouchableOpacity
 } from 'react-native';
+import ContactQuickView from './contactQuickView';
 
 var contacts = React.NativeModules.ContactsModule;
 
@@ -16,20 +17,51 @@ class selectContacts extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.updateSearch = this.updateSearch.bind(this);
     this.handleContacts = this.handleContacts.bind(this);
+    this.renderContact = this.renderContact.bind(this);
     this.state = {
+      searchTerm: '',
       dataSource: ds.cloneWithRows([]),
+      selectedContacts: []
     };
   }
   render() {
+    var selected = this.state.selectedContacts.map((contact, i) => {
+      return (
+        <ContactQuickView contact={contact} key={i} removeContact={() => this.removeContact(contact)}/>
+      )
+    })
     return (
       <View>
-        <Text>Guests</Text>
-        <TextInput onChangeText={this.updateSearch}/>
+        <Text>Guests (tap selected to remove)</Text>
+        {selected}
+        <TextInput value={this.state.searchTerm} onChangeText={this.updateSearch}/>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={renderContact}
+          renderRow={this.renderContact}
         />
       </View>
+    )
+  }
+  selectContact(data) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows([]),
+      selectedContacts: this.state.selectedContacts.concat([data]),
+      searchTerm: ''
+    });
+  }
+  removeContact(contact) {
+    this.setState({
+      selectedContacts: this.state.selectedContacts.filter((a)=>{return a.recordID !== contact.recordID})
+    });
+  }
+  renderContact(rowData, sectionID, rowID) {
+    return (
+      <TouchableOpacity
+        id={rowData.recordID}
+        style={styles.contact}
+        onPress={() => this.selectContact(rowData)}>
+        <Text>{rowData.displayName}</Text>
+      </TouchableOpacity>
     )
   }
   handleContacts(err, contacts) {
@@ -41,6 +73,7 @@ class selectContacts extends Component {
     });
   }
   updateSearch(text) {
+    this.setState({searchTerm: text})
     if (text.trim()) {
       contacts.search(text, this.handleContacts)
     } else {
@@ -51,10 +84,9 @@ class selectContacts extends Component {
   }
 }
 
-function renderContact(rowData) {
-  return (
-    <Text>{rowData.displayName}</Text>
-  )
-}
-
+const styles = StyleSheet.create({
+  contact: {
+    height: 50
+  }
+});
 export default selectContacts;

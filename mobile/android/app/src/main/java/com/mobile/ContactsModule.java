@@ -41,13 +41,15 @@ public class ContactsModule extends ReactContextBaseJavaModule {
         ContactsContract.Contacts.HAS_PHONE_NUMBER,
       };
       Cursor cursor = cr.query(uri, proj, null, null, null);
-      WritableArray contacts = Arguments.createArray(); // resultSet
+      WritableArray contacts = Arguments.createArray();
       cursor.moveToFirst();
         while (cursor.isAfterLast() == false) {
           WritableMap contact = Arguments.createMap();
           String id = cursor.getString(0);
           contact.putInt("recordID", Integer.parseInt(id));
           String photoURI = cursor.getString(1);
+          String photoHost = cursor.getString(1);
+          contact.putString("thumbnailHost", photoHost);
           contact.putString("thumbnailPath", photoURI == null ? "" : photoURI);
           String name = cursor.getString(2);
           contact.putString("displayName", name == null ? "" : name);
