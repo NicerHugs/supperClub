@@ -61,9 +61,10 @@ class DatePicker extends Component {
   }
   render() {
     return (
-      <View>
+      <View style={styles.body}>
         <TouchableOpacity
-          onPress={this.showDatePicker}>
+          onPress={this.showDatePicker}
+          style={styles.body}>
           <Text>{formatDate(this.props.date)}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -74,5 +75,11 @@ class DatePicker extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  body: {
+
+  }
+});
 
 export default DatePicker;

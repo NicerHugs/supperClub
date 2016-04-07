@@ -14,6 +14,7 @@ import React, {
   StatusBar,
   ToolbarAndroid,
 } from 'react-native';
+import store from 'react-native-simple-store';
 import SelectContacts from './components/selectContacts';
 import SelectDate from './components/datePicker';
 
@@ -22,6 +23,15 @@ var sms = React.NativeModules.SmsModule;
 class mobile extends Component {
   constructor() {
     super();
+    store.get('userUUID').then(id => {
+      if (id) {
+        // create session on back end
+      } else {
+        // ask back end to create new user (which should automatically return both uuid and session)
+        // store uuid
+      }
+    });
+
     var date = new Date();
     var mins = date.getMinutes();
     if (mins !== 0 || mins !== 5) {

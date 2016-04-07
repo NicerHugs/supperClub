@@ -1,5 +1,8 @@
+var http = require('http');
 var express = require('express');
 var errorhandler = require('errorhandler');
+var db = require('./db.js');
+var router = require('./router.js');
 
 
 var allowCrossDomain = function(req, res, next) {
@@ -13,6 +16,8 @@ var allowCrossDomain = function(req, res, next) {
 var app = express();
 
 app.use(allowCrossDomain);
+app.set('port', process.env.PORT || 3000);
+app.use('/', router);
 
 var env = process.env.NODE_ENV || 'development';
 if ('development' == env) {
