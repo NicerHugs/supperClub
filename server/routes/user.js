@@ -7,12 +7,19 @@ module.exports = {
     // get the session from the session collection
     var sessionCursor = req.sessions.find({"_id" : token});
     sessionCursor.hasNext().then((b) => {
-      if (!b) {sessionCursor.close(); res.status(500).end();}
+      if (!b) {
+        sessionCursor.close();
+        res.status(500).end();
+      }
       sessionCursor.next().then(session => {
         // get the user from the user collection
         var userCursor = req.users.find({"_id" : session.user});
         userCursor.hasNext().then((b) => {
-          if (!b) {sessionCursor.close(); userCursor.close(); res.status(500).end();}
+          if (!b) {
+            sessionCursor.close();
+            userCursor.close();
+            res.status(500).end();
+          }
           userCursor.next().then(user => {
             userCursor.close();
             sessionCursor.close();
@@ -29,12 +36,14 @@ module.exports = {
     // create a new user in the database
     var user = {};
     req.users.insertOne(user, (err, result) => {
+      if (err) {res.status(500).end();}
       var session = {
         _id: id,
         user: result.insertedId
       }
       // save a session to the database with uuid as key
       req.sessions.insertOne(session, (err, result) => {
+        if (err) {res.status(500).end();}
         // return session to user's device
         res.json({sessionToken: result.insertedId});
       })
