@@ -1,10 +1,27 @@
 var uuid = require('uuid');
+var ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
   get: function(req, res, next) {
-    // get the user in the users table
-    // return the user in repsonse as json
-    res.send('hi');
+    var token = req.get('Authorization');
+    // get the session from the session collection
+    var sessionCursor = req.sessions.find({"_id" : token});
+    sessionCursor.hasNext().then((b) => {
+      if (!b) {sessionCursor.close(); res.status(500).end();}
+      sessionCursor.next().then(session => {
+        // get the user from the user collection
+        var userCursor = req.users.find({"_id" : session.user});
+        userCursor.hasNext().then((b) => {
+          if (!b) {sessionCursor.close(); userCursor.close(); res.status(500).end();}
+          userCursor.next().then(user => {
+            userCursor.close();
+            sessionCursor.close();
+            //send the user back as json
+            res.json(user);
+          });
+        });
+      });
+    })
   },
   post: function(req, res, next) {
     // make a new uuid
