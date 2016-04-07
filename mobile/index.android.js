@@ -22,12 +22,26 @@ var sms = React.NativeModules.SmsModule;
 class mobile extends Component {
   constructor() {
     super();
+    var date = new Date();
+    var mins = date.getMinutes();
+    if (mins !== 0 || mins !== 5) {
+      mins = mins + (5-mins%5);
+    }
+    if (mins === 60) {
+      mins = 0;
+      date.setHours(date.getHours() + 1);
+    }
+    date.setMinutes(mins);
     this.state = {
       number: '',
-      startDate: new Date(),
-      endDate: new Date()
+      startDate: new Date(date),
+      endDate: new Date(date)
     }
     this.setDate = this.setDate.bind(this);
+    this.sendInvites = this.sendInvites.bind(this);
+  }
+  sendInvites() {
+
   }
   send(num) {
     var textBody = 'hi from supper club';
@@ -57,19 +71,25 @@ class mobile extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.mainArea}>
-          <SelectDate
-            stateKey="startDate"
-            minDate={new Date()}
-            date={this.state.startDate}
-            handleDate={this.setDate}/>
-          <SelectDate
-            stateKey="endDate"
-            minDate={this.state.startDate}
-            date={this.state.endDate < this.state.startDate ? this.state.startDate : this.state.endDate}
-            handleDate={this.setDate}/>
-          <SelectContacts />
+          <View style={styles.dateArea}>
+            <SelectDate
+              stateKey="startDate"
+              minDate={new Date()}
+              date={this.state.startDate}
+              handleDate={this.setDate}/>
+            <SelectDate
+              stateKey="endDate"
+              minDate={this.state.startDate}
+              date={this.state.endDate < this.state.startDate ? this.state.startDate : this.state.endDate}
+              handleDate={this.setDate}/>
+          </View>
+          <SelectContacts style={styles.contactArea}/>
+          <TextInput
+            multiline={true}
+            placeholder="Event Description"
+            />
         </View>
-        <TouchableOpacity style={styles.sendBtn} onPress={() => this.send(this.state.number)}>
+        <TouchableOpacity style={styles.sendBtn} onPress={() => this.sendInvites()}>
           <Text style={styles.btn_txt}>Send Invites</Text>
         </TouchableOpacity>
       </View>
@@ -104,6 +124,16 @@ const styles = StyleSheet.create({
   },
   mainArea: {
     flex: 1,
+    flexDirection: 'column'
+  },
+  dateArea: {
+    flex: 2
+  },
+  contactArea: {
+    flex: 2
+  },
+  description: {
+    flex: 1
   },
   msgInput: {
     height: 40,

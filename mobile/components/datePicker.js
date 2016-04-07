@@ -20,7 +20,19 @@ function formatDate(date) {
 }
 
 function formatTime(date) {
-  return `${date.getHours()}:${date.getMinutes()}`;
+  var hours = date.getHours();
+  var mins = date.getMinutes();
+  var modifier = 'am';
+  if (hours > 12) {
+    hours = hours - 12;
+    modifier = 'pm';
+  } else if (hours === 0) {
+    hours = 12;
+  }
+  if (mins.toString().length < 2) {
+    mins = '0'+mins;
+  }
+  return `${hours}:${mins}${modifier}`;
 }
 
 class DatePicker extends Component {
@@ -31,6 +43,7 @@ class DatePicker extends Component {
   }
   showDatePicker() {
     DatePickerAndroid.open({date: this.props.date, minDate: this.props.minDate}).then(({day, month, year, action}) => {
+      if (action === 'dismissedAction') return;
       var date = new Date(year, month, day);
       date.setHours(this.props.date.getHours());
       date.setMinutes(this.props.date.getMinutes());
@@ -38,9 +51,9 @@ class DatePicker extends Component {
     })
   }
   showTimePicker() {
-    TimePickerAndroid.open({hour: this.props.date.getHours(), minute: this.props.date.getMinutes, is24Hour: false}).then(({minute, hour, action}) => {
+    TimePickerAndroid.open({hour: this.props.date.getHours(), minute: this.props.date.getMinutes(), is24Hour: false}).then(({minute, hour, action}) => {
+      if (action === 'dismissedAction') return;
       var date = new Date(this.props.date);
-      console.log(hour);
       date.setHours(hour);
       date.setMinutes(minute)
       this.props.handleDate(this.props.stateKey, date)

@@ -32,9 +32,12 @@ class selectContacts extends Component {
     })
     return (
       <View>
-        <Text>Guests (tap selected to remove)</Text>
         {selected}
-        <TextInput value={this.state.searchTerm} onChangeText={this.updateSearch}/>
+        <TextInput
+          value={this.state.searchTerm}
+          onChangeText={this.updateSearch}
+          placeholder={selected.length ? "" : "Guests"}>
+        </TextInput>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderContact}
