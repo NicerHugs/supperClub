@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var db = require('./db.js');
+var authorize = require('./routes/authorize');
 
 var user = require('./routes/user.js');
+var events = require('./routes/events.js');
 
 router.route('/user')
   .all(function(req, res, next) {
@@ -10,7 +12,11 @@ router.route('/user')
     req.sessions = db.get().collection('sessions');
     next();
   })
-  .get(user.get)
+  .get(authorize, user.get)
   .post(user.post);
+
+router.route('/events')
+  .get(authorize, events.get)
+  .post(events.post);
 
 module.exports = router;

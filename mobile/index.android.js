@@ -68,6 +68,7 @@ class mobile extends Component {
     this.setState(newState);
   }
   render() {
+    console.log(this.state.user);
     return (
       <View style={styles.container}>
         <StatusBar
