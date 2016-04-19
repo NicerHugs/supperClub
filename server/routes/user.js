@@ -42,10 +42,13 @@ module.exports = {
         user: result.insertedId
       }
       // save a session to the database with uuid as key
-      req.sessions.insertOne(session, (err, result) => {
+      req.sessions.insertOne(session, (err, result2) => {
         if (err) {res.status(500).end();}
         // return session to user's device
-        res.json({sessionToken: result.insertedId});
+        res.json({
+          sessionToken: result2.insertedId,
+          user: {_id: result.insertedId}
+        });
       })
     });
   }

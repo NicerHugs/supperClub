@@ -17,21 +17,13 @@ import React, {
 import store from 'react-native-simple-store';
 import SelectContacts from './components/selectContacts';
 import SelectDate from './components/datePicker';
+import user from './models/user.js';
 
 var sms = React.NativeModules.SmsModule;
 
 class mobile extends Component {
   constructor() {
     super();
-    store.get('userUUID').then(id => {
-      if (id) {
-        // create session on back end
-      } else {
-        // ask back end to create new user (which should automatically return both uuid and session)
-        // store uuid
-      }
-    });
-
     var date = new Date();
     var mins = date.getMinutes();
     if (mins !== 0 || mins !== 5) {
@@ -43,6 +35,7 @@ class mobile extends Component {
     }
     date.setMinutes(mins);
     this.state = {
+      user: {},
       number: '',
       startDate: new Date(date),
       endDate: new Date(date)
@@ -50,9 +43,17 @@ class mobile extends Component {
     this.setDate = this.setDate.bind(this);
     this.sendInvites = this.sendInvites.bind(this);
   }
+
+  componentDidMount() {
+    user.fetch()
+    .then(user => this.setState({user: user}))
+    .catch(error => console.log(error));
+  }
+
   sendInvites() {
 
   }
+
   send(num) {
     var textBody = 'hi from supper club';
     sms.send(num, textBody, function(s) {

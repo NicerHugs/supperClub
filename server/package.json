@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start-db": "mongod",
-    "start-server":"node app.js",
+    "start-server": "node app.js",
+    "dev": "shell-exec 'npm run start-server' 'npm run start-db'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,6 +20,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "errorhandler": "^1.4.3",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "shell-executor": "^0.3.2"
   }
 }
