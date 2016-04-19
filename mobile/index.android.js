@@ -9,7 +9,6 @@ import React, {
   StatusBar,
   ToolbarAndroid,
 } from 'react-native';
-import store from 'react-native-simple-store';
 import SelectContacts from './components/selectContacts';
 import SelectDate from './components/datePicker';
 import user from './models/user.js';
