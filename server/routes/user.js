@@ -1,6 +1,5 @@
 var uuid = require('uuid');
 var ObjectId = require('mongodb').ObjectID;
-var authorize = require('./authorize.js');
 
 module.exports = {
   get: function(req, res, next) {

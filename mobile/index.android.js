@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-
 import React, {
   AppRegistry,
   Component,
@@ -18,6 +13,7 @@ import store from 'react-native-simple-store';
 import SelectContacts from './components/selectContacts';
 import SelectDate from './components/datePicker';
 import user from './models/user.js';
+import evt from './models/event.js';
 
 var sms = React.NativeModules.SmsModule;
 
@@ -35,10 +31,10 @@ class mobile extends Component {
     }
     date.setMinutes(mins);
     this.state = {
-      user: {},
-      number: '',
+      title: '',
       startDate: new Date(date),
-      endDate: new Date(date)
+      endDate: new Date(date),
+      guests: []
     }
     this.setDate = this.setDate.bind(this);
     this.sendInvites = this.sendInvites.bind(this);
@@ -51,7 +47,7 @@ class mobile extends Component {
   }
 
   sendInvites() {
-
+    evt.create(this.state)
   }
 
   send(num) {
@@ -68,7 +64,7 @@ class mobile extends Component {
     this.setState(newState);
   }
   render() {
-    console.log(this.state.user);
+    console.log(this.state.title);
     return (
       <View style={styles.container}>
         <StatusBar
@@ -77,7 +73,9 @@ class mobile extends Component {
         <View style={styles.toolbar}>
           <TextInput
             style={styles.toolbarTitle}
-            placeholder="Event Name"/>
+            placeholder="Event Name"
+            value={this.state.title}
+            onChangeText={title => this.setState({title})}/>
           <TouchableOpacity style={styles.toolbarButton}>
             <Text style={styles.toolbarButtonText}>x</Text>
           </TouchableOpacity>
