@@ -16,7 +16,12 @@ router.route('/user')
   .post(user.post);
 
 router.route('/events')
+  .all(function(req, res, next) {
+    req.users = db.get().collection('users');
+    req.events = db.get().collection('events');
+    next();
+  })
   .get(authorize, events.get)
-  .post(events.post);
+  .post(authorize, events.post);
 
 module.exports = router;

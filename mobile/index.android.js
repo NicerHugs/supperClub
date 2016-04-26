@@ -14,8 +14,6 @@ import SelectDate from './components/datePicker';
 import user from './models/user.js';
 import evt from './models/event.js';
 
-var sms = React.NativeModules.SmsModule;
-
 class mobile extends Component {
   constructor() {
     super();
@@ -53,14 +51,6 @@ class mobile extends Component {
     .catch(console.log.bind(console));
   }
 
-  send(num) {
-    var textBody = 'hi from supper club';
-    sms.send(num, textBody, function(s) {
-      console.log('success', s)
-    }, function(e) {
-      console.log('error', e)
-    });
-  }
   setDate(stateKey, date) {
     let newState = {};
     newState[stateKey] = date;

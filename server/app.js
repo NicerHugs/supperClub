@@ -2,6 +2,7 @@ var http = require('http');
 var express = require('express');
 var errorhandler = require('errorhandler');
 var db = require('./db.js');
+var bodyParser = require('body-parser');
 var router = require('./router.js');
 
 
@@ -16,6 +17,7 @@ var allowCrossDomain = function(req, res, next) {
 var app = express();
 
 app.use(allowCrossDomain);
+app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3000);
 app.use('/', router);
 
