@@ -9,7 +9,6 @@ import React, {
 
 class ContactQuickView extends Component {
   render() {
-    console.log(this.props);
     return (
       <TouchableOpacity style={styles.container} onPress={this.props.removeContact}>
         <Image

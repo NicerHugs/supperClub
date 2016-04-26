@@ -61,4 +61,24 @@ public class ContactsModule extends ReactContextBaseJavaModule {
         cursor.close();
       cb.invoke(null, contacts);
     }
+
+    @ReactMethod
+    public void getPhoneNum(String recordID, Callback cb) {
+      String num = null;
+      ContentResolver cr = getReactApplicationContext().getContentResolver();
+      Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+      String[] proj = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+      Cursor cursor = cr.query(uri, proj,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND " +
+                        ContactsContract.CommonDataKinds.Phone.TYPE + " = " +
+                        ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
+                      new String[]{recordID},
+                      null
+      );
+      if (cursor.moveToFirst()) {
+          num = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+      }
+      cursor.close();
+      cb.invoke(null, num);
+    }
 }

@@ -46,10 +46,14 @@ class selectContacts extends Component {
     )
   }
   selectContact(data) {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([]),
-      selectedContacts: this.state.selectedContacts.concat([data]),
-      searchTerm: ''
+    contacts.getPhoneNum(data.recordID.toString(), (err, phoneNumber) => {
+      if (err) throw new Error();
+      data.phoneNumber = phoneNumber;
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows([]),
+        selectedContacts: this.state.selectedContacts.concat([data]),
+        searchTerm: ''
+      });
     });
   }
   removeContact(contact) {

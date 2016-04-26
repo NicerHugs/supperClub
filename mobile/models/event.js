@@ -17,7 +17,7 @@ module.exports = {
         .then(evt => evt.text())
         .then(evtText => resolve(JSON.parse(evtText)))
         .catch(err => reject(err));
-      }
-    }).catch(err => reject(err));
-  });
+      }).catch(err => reject(err));
+    });
+  }
 }
