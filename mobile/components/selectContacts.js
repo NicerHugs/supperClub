@@ -14,20 +14,22 @@ var contacts = React.NativeModules.ContactsModule;
 class selectContacts extends Component {
   constructor() {
     super();
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.updateSearch = this.updateSearch.bind(this);
     this.handleContacts = this.handleContacts.bind(this);
     this.renderContact = this.renderContact.bind(this);
     this.state = {
       searchTerm: '',
-      dataSource: ds.cloneWithRows([]),
-      selectedContacts: []
+      dataSource: ds.cloneWithRows([])
     };
   }
   render() {
-    var selected = this.state.selectedContacts.map((contact, i) => {
+    var selected = this.props.selectedContacts.map((contact, i) => {
       return (
-        <ContactQuickView contact={contact} key={i} removeContact={() => this.removeContact(contact)}/>
+        <ContactQuickView
+          contact={contact}
+          key={i}
+          removeContact={() => this.props.contactRemoved(contact)}/>
       )
     })
     return (
@@ -36,7 +38,7 @@ class selectContacts extends Component {
         <TextInput
           value={this.state.searchTerm}
           onChangeText={this.updateSearch}
-          placeholder={selected.length ? "" : "Guests"}>
+          placeholder={selected.length ? "Tap to add more guests" : "Guests"}>
         </TextInput>
         <ListView
           dataSource={this.state.dataSource}
@@ -49,16 +51,11 @@ class selectContacts extends Component {
     contacts.getPhoneNum(data.recordID.toString(), (err, phoneNumber) => {
       if (err) throw new Error();
       data.phoneNumber = phoneNumber;
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows([]),
-        selectedContacts: this.state.selectedContacts.concat([data]),
-        searchTerm: ''
-      });
+      this.props.contactSelected(data);
     });
-  }
-  removeContact(contact) {
     this.setState({
-      selectedContacts: this.state.selectedContacts.filter((a)=>{return a.recordID !== contact.recordID})
+      dataSource: this.state.dataSource.cloneWithRows([]),
+      searchTerm: ''
     });
   }
   renderContact(rowData, sectionID, rowID) {

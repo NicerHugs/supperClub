@@ -37,6 +37,8 @@ class mobile extends Component {
     }
     this.setDate = this.setDate.bind(this);
     this.sendInvites = this.sendInvites.bind(this);
+    this.updateGuests = this.updateGuests.bind(this);
+    this.removeGuest = this.removeGuest.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +49,8 @@ class mobile extends Component {
 
   sendInvites() {
     evt.create(this.state)
+    .then()
+    .catch(console.log.bind(console));
   }
 
   send(num) {
@@ -61,6 +65,14 @@ class mobile extends Component {
     let newState = {};
     newState[stateKey] = date;
     this.setState(newState);
+  }
+  updateGuests(guest) {
+    this.setState({guests: this.state.guests.concat([guest])});
+  }
+  removeGuest(guest) {
+    this.setState({
+      guests: this.state.guests.filter((a)=>{return a.recordID !== guest.recordID})
+    });
   }
   render() {
     return (
@@ -91,7 +103,11 @@ class mobile extends Component {
               date={this.state.endDate < this.state.startDate ? this.state.startDate : this.state.endDate}
               handleDate={this.setDate}/>
           </View>
-          <SelectContacts style={styles.contactArea}/>
+          <SelectContacts
+            style={styles.contactArea}
+            selectedContacts={this.state.guests}
+            contactSelected={this.updateGuests}
+            contactRemoved={this.removeGuest}/>
           <TextInput
             multiline={true}
             placeholder="Event Description"
