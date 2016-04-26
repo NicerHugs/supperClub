@@ -1,6 +1,7 @@
 import store from 'react-native-simple-store';
+import config from './config.js';
 
-const url = 'http://192.168.0.3:3000/events';
+const url = `${config.apiHost}events`;
 
 module.exports = {
   validate: function(event) {

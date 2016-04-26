@@ -49,7 +49,7 @@ class mobile extends Component {
 
   sendInvites() {
     evt.create(this.state)
-    .then()
+    .then(console.log.bind(console))
     .catch(console.log.bind(console));
   }
 
