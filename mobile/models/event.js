@@ -11,13 +11,14 @@ function sendInvites(evt) {
       const message = `I\'m inviting you to my event, ${evt.title}.
         Please RSVP: ${config.webAppHost}${evt._id}/${evt.invites[i]}`
       sms.send(
-        guest.phoneNumber,
+        // guest.phoneNumber,
+        '6038010474',
         message,
         console.log.bind(console),
         console.log.bind(console)
       );
     })
-    resolve('invites sent');
+    resolve(evt);
     reject('invites not sent');
   });
 };
