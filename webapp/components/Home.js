@@ -5,7 +5,7 @@ export default React.createClass({
   render() {
     return (
       <div>Home
-        <Link to="/h9283/984hl">Link</Link>
+        <Link to="/h9283/984hl">test event</Link>
       </div>
     )
   }

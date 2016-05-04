@@ -16,12 +16,29 @@ router.route('/user')
   .post(user.post);
 
 router.route('/events')
-  .all(function(req, res, next) {
+  .all(authorize, function(req, res, next) {
     req.users = db.get().collection('users');
     req.events = db.get().collection('events');
     next();
   })
-  .get(authorize, events.get)
-  .post(authorize, events.post);
+  .get(events.get)
+  .post(events.post);
+
+router.route('/events/:eventId')
+  .all(authorize, function(req, res, next) {
+    req.users = db.get().collection('users');
+    req.events = db.get().collection('events');
+    next();
+  })
+  .get(events.getById)
+  .put(events.edit);
+
+router.route('/:eventId/:token')
+  .all(function(req, res, next) {
+    req.events = db.get().collection('events');
+    next();
+  })
+  .get(events.getForRSVP)
+  .put(events.updateAttendees);
 
 module.exports = router;

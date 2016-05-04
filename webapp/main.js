@@ -6,14 +6,15 @@ import App from './components/App.js';
 import Home from './components/Home.js';
 import Evt from './components/Event.js';
 import Token from './components/Token.js';
-import NoToken from './components/NoToken.js';
+import Four04 from './components/404.js';
 
 const router = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Home}/>
+      <Route path="404" component={Four04}/>
       <Route path=":event" component={Evt}>
-        <IndexRoute component={NoToken} />
+        <IndexRoute component={Four04} />
         <Route path=":token" component={Token} />
       </Route>
     </Route>
