@@ -4,12 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-db": "mongod",
+    "start-server": "nodemon server/app.js",
+    "start-android": "cd mobile && adb reverse tcp:8081 tcp:8081 && react-native run-android",
+    "start-web-app": "",
+    "dev": "shell-exec 'npm run start-server' 'npm run start-db' 'npm run start-android'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2",
+    "shell-executor": "^0.3.2"
   }
 }

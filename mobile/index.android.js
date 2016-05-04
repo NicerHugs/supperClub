@@ -28,7 +28,6 @@ class mobile extends Component {
     }
   }
   render() {
-    console.log(this.state);
     return (
       <this.state.page data={this.state.data} routeChange={this.handleRoute}/>
     )

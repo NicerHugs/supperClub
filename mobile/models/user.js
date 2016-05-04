@@ -1,13 +1,10 @@
 import store from 'react-native-simple-store';
 import config from './config.js';
 
-console.log(config.apiHost);
-
-const url = `${config.apiHost}user`;
+const url = `${config.apiHost}${config.apiExtension}user`;
 
 const User = function() {
   this.create = function() {
-    console.log('creating user now');
     return fetch(url, {
       method: 'POST',
       headers: {
@@ -18,7 +15,6 @@ const User = function() {
   };
 
   this.getBySessionToken = function(token) {
-    console.log('fetching user by token ' + token);
     return fetch(url, {
       headers: {
         'Accept': 'application/json',
@@ -35,8 +31,8 @@ const User = function() {
         if (sessionToken) {
           // use session token to get user and resolve with user
           this.getBySessionToken(sessionToken)
-          .then(user => user.text())
-          .then(userText => resolve(JSON.parse(userText)))
+          .then(user => user.json())
+          .then(userJSON => resolve(userJSON))
           .catch(err => {
             this.create()
             .then(response => response.text())

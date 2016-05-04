@@ -3,7 +3,7 @@ import store from 'react-native-simple-store';
 import config from './config.js';
 var sms = React.NativeModules.SmsModule;
 
-const url = `${config.apiHost}events`;
+const url = `${config.apiHost}${config.apiExtension}events`;
 
 function sendInvites(evt) {
   return new Promise((resolve, reject) => {
@@ -55,8 +55,8 @@ module.exports = {
           },
           body: JSON.stringify(evt)
         })
-        .then(evt => evt.text())
-        .then(evtText => sendInvites(JSON.parse(evtText)))
+        .then(evt => evt.json())
+        .then(sendInvites)
         .then(resolve)
         .catch(err => reject(err));
       }).catch(err => reject(err));

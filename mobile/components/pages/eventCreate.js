@@ -50,7 +50,7 @@ class EventCreate extends Component {
     .then(ev => {
       console.log(ev);
       this.props.routeChange('eventDetail', ev)})
-    .catch(console.log.bind(console));
+    .catch(err => console.log('event create error', err))
   }
 
   setDate(stateKey, date) {
@@ -105,7 +105,7 @@ class EventCreate extends Component {
             placeholder="Event Description"
             />
         </View>
-        <TouchableOpacity style={styles.sendBtn} onPress={() => this.sendInvites()}>
+        <TouchableOpacity style={styles.sendBtn} onPress={this.sendInvites}>
           <Text style={styles.btn_txt}>Send Invites</Text>
         </TouchableOpacity>
       </View>

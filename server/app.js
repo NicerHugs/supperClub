@@ -19,7 +19,8 @@ var app = express();
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3000);
-app.use('/', router);
+app.use('/api/v1', router);
+app.use('/index.html', express.static('public'));
 
 var env = process.env.NODE_ENV || 'development';
 if ('development' == env) {
