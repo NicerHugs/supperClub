@@ -8,17 +8,23 @@
     "start-db": "mongod",
     "start-server": "nodemon server/app.js",
     "start-android": "cd mobile && adb reverse tcp:8081 tcp:8081 && react-native run-android",
-    "start-web-app": "",
-    "dev": "shell-exec 'npm run start-server' 'npm run start-db' 'npm run start-android'"
+    "start-webapp": "cp webapp/index.html server/public/index.html && shell-exec 'watchify webapp/main.js -d -v --outfile server/public/bundle.js' 'sass --watch webapp/sass/main.scss:server/public/styles.css'",
+    "dev": "shell-exec 'npm run start-server' 'npm run start-db' 'npm run start-android' 'npm run start-webapp'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "react": "^15.0.2",
+    "react-router": "^2.4.0"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.3.0",
     "nodemon": "^1.9.2",
-    "shell-executor": "^0.3.2"
+    "shell-executor": "^0.3.2",
+    "watchify": "^3.7.0"
   }
 }
