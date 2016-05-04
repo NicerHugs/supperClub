@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 export default React.createClass({
   render() {
     return (
-      <div>App!{this.props.children}</div>
+      <div>User has no token</div>
     )
   }
 });
