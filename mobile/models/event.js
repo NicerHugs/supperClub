@@ -11,8 +11,8 @@ function sendInvites(evt) {
       const message = `I\'m inviting you to my event, ${evt.title}.
         Please RSVP: ${config.webAppHost}${evt._id}/${evt.invites[i]}`
       sms.send(
-        // guest.phoneNumber,
-        '6038010474',
+        guest.phoneNumber,
+        // '6038010474',
         message,
         console.log.bind(console),
         console.log.bind(console)

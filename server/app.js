@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3000);
 app.use('/api/v1', router);
 app.use('/', express.static(path.join(__dirname, 'public')));
-app.get('*', (req, res) => {res.sendFile(path.join(__dirname, 'public', 'index.html'))})
+app.use((req, res) => {res.sendFile(path.join(__dirname, 'public', 'index.html'))});
 
 var env = process.env.NODE_ENV || 'development';
 if (env === 'development') {

@@ -48,7 +48,6 @@ class EventCreate extends Component {
   sendInvites() {
     evt.create(this.state)
     .then(ev => {
-      console.log(ev);
       this.props.routeChange('eventDetail', ev)})
     .catch(err => console.log('event create error', err))
   }

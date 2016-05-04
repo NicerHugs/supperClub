@@ -1,6 +1,6 @@
 export default {
-  apiHost: 'http://192.168.0.3:3000/',
+  apiHost: 'http://192.168.1.20:3000/',
   apiExtension: 'api/v1/',
-  webAppHost: 'http://192.168.0.3:3000/',
+  webAppHost: 'http://192.168.1.20:3000/',
   apiExtension: 'api/v1/'
 };
