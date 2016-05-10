@@ -31,7 +31,8 @@ class EventCreate extends Component {
       title: '',
       startDate: new Date(date),
       endDate: new Date(date),
-      guests: []
+      guests: [],
+			guestCap: 0
     }
     this.setDate = this.setDate.bind(this);
     this.sendInvites = this.sendInvites.bind(this);
@@ -94,6 +95,10 @@ class EventCreate extends Component {
               date={this.state.endDate < this.state.startDate ? this.state.startDate : this.state.endDate}
               handleDate={this.setDate}/>
           </View>
+					<TextInput
+						placeholder="Guest Cap"
+						keyboardType="numeric"
+						onChangeText={guestCap => this.setState({guestCap})}/>
           <SelectContacts
             style={styles.contactArea}
             selectedContacts={this.state.guests}

@@ -20,7 +20,8 @@ module.exports = {
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       description: req.body.description,
-      guests: req.body.guests
+      guests: req.body.guests,
+			guestCap: req.body.guestCap
     };
     req.events.insertOne(evt, (err, result) => {
       if (err) res.status(500).end();
@@ -55,7 +56,6 @@ module.exports = {
       if (!evt) res.status(404).end();
       if (evt.invites.indexOf(req.params.token) > -1) {
         // user has a token to this event
-        console.log(evt.attendees.length, evt.guestCap, evt.attendees.length === evt.guestCap);
         res.json({
           title: evt.title,
           owner: evt.owner,
